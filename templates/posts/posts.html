@@ -1,0 +1,186 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Puclicaciones Dafonte</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/d2fc6f6c9e.js" crossorigin="anonymous"></script>
+    <style>
+        
+        .body{
+            background-color: rgba(46, 28, 113, 0.715); 
+           
+
+        }
+        
+        .input-group{
+            width:300px;
+            position: static;
+            padding: 5px ;
+            margin-top: 10px;
+            align-items: left;
+
+        }
+        .posts{
+
+              
+        margin: 0px 30px;
+        display:grid;
+        justify-content:space-between; 
+         
+        grid-template-columns: 1100px 1100px;
+        grid-column-gap: 10px;
+        gap: 20px;
+        padding: 30px;
+        margin-top: 70px;
+        }
+        .filt{
+            display: flex;
+            justify-content: space-between;
+            font-size: 26px;
+            margin: 10 30px;
+            margin-top: 40px;
+        }
+        .filtro{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .butt{
+            text-align: center;
+            margin: 5px;
+            
+        }
+        
+
+    </style>
+
+</head>
+<body>
+    <nav class="navbar bg-light fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/posts">Publicaciones Dafonte</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Dafonte Detalles</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/posts/create" >Crear Publicación</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                    <li><a class="dropdown-item" href="#">Action 1</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="d-flex" role="Buscar publicación">
+                <input class="form-control me-2" type="Buscar publicación" placeholder="Buscar publicación" aria-label="Buscar publicación">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+   
+
+
+
+    <!--
+    <div class="Titulo">
+        <h1>Posts</h1>
+        <div class="link">
+            <a href="/posts/create">Crear publicación</a>
+        </div>
+    </div>   
+    antiguo enlace Post -->
+    <!--
+    <div class="row " style="margin: 30px; padding: 20px; width: 300px;">
+        <h4 class="filt">Categorias</h4>
+        <form action="fil" method="get">
+            <select name="options" title="">
+                <option value="None">Escoga</option>
+                <option value="0">Danfonte</option>
+                <option value="1">Publicación</option>
+               
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+    -->
+
+    <section class="posts">
+        {% for post in posts %}
+           
+        <div class="row row-cols-4 row-cols-md-3 g-4">
+            <div class="col">
+              <div class="card h-100">
+                <img src="{{ post.img }}" class="card-img-top" alt="Revisar imágen">
+                <div class="card-body">
+                    <a href="{{ post.get_url }}">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                    </a>
+                    <p class="card-text"> {{ post.description }}</p>
+                    <div class="butt">
+                        <a href="/posts/edit/{{ post.id }}"class="btn btn-info">Editar publicación</a>
+                        <button class="btn btn-warning" onclick="deleteConfirmation({{ post.id }})"> Eliminar publicación</button>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">Última actualización</small>
+                  <p> {{ post.created_date }}</p>
+                </div>
+              </div>
+            </div>
+         
+              
+            
+            
+          </div>
+            
+            <!--
+                <article class="card">
+                    <div class="card-body">
+                        <a href="{{ post.get_url }}">
+                           <h2 class= "card-title"> {{ post.title }}</h2>
+                        </a>
+                    
+                        <p> {{ post.created_date }}</p>
+                        <p class="card-text"> {{ post.description }}</p>
+                        <a href="/posts/edit/{{ post.id }}">Editar publicación</a>
+                        <button class="delete-confirmation" onclick="deleteConfirmation({{ post.id }})"> Eliminar publicación</button>
+
+                    </div>
+
+                    <a href="/posts/{{ post.id }}">             
+                        <img class="card-img-bottom" src="{{ post.img }}" alt="Imágen">
+                    </a> 
+            </article>
+            card simple -->
+
+        {% endfor %}
+
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+    <script src="{% static "js/posts.js" %}"></script>
+</body>
+</html>

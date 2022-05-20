@@ -1,0 +1,10 @@
+.input-group{
+
+    position: static;
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: stretch;
+    width: 100%;
+    align-content:flex-end;
+
+}

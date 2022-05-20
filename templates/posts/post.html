@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        img{
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            margin: 50px center;
+            box-shadow: 5px 8px 12px;
+            text-align: justify;
+            border-radius: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ post.title }} </h1>
+    <img src="{{ post.img }}" alt="Imágen">
+    <p>{{ post.content }}</p>
+</body>
+</html>

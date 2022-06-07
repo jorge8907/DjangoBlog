@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block main%}
+    <h1>Home</h1>
+    
+    <section>
+
+        {% for product in products %}
+            <article>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.price }}</p>
+                <img src="{{ product.image }}" alt="Imagen">
+                <a href="/cart/add/{{ product.id }}">Add to cart</a>
+            </article>
+        {% endfor %}
+
+    </section>
+
+{% endblock %}

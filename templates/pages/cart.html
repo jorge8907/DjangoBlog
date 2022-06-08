@@ -1,12 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}
+    My cart
+
+{% endblock %}
+
+{% block main %}
     <h1>Carrito</h1>
-</body>
-</html>
+    <section>
+        {% for cartItem in products %}
+            <article>
+                <h3>{{ cartItem.product.name }}</h3>
+                <p> Amount: {{ cartItem.amount }}</p>
+                <img src="{{ cartItem.product.image }}" alt="Image">
+                <a href="/cart/delete/{{ cartItem.id }}">Eliminar</a>
+            </article>
+
+        {% endfor %}
+
+    </section>
+    
+{% endblock %}

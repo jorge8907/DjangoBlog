@@ -33,9 +33,12 @@ def login_view(request):
     return render(request, "pages/login.html")
 
 def logout_view(request):
+    #request.user.cart.products.
     if request.user.is_authenticated:
         logout(request)
-        
+    
+    
+       
     return redirect("/")
 
 def signup_view(request):

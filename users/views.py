@@ -1,8 +1,13 @@
-import email
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+from cart.models import Cart
+import uuid
+
 
 User = get_user_model()
 # Create your views here.
@@ -56,10 +61,29 @@ def signup_view(request):
             })
 
         try:
+            email_uuid = str(uuid.uuid4())
+            
             new_user = User.objects.create_user(username,email,password)
+            cart = Cart()
+            cart.user = new_user
+            cart.save()
+            
             new_user.first_name = first_name
             new_user.last_name = last_name
+            new_user.emailValidationUUID = email_uuid
             new_user.save()
+            
+            try:
+                send_mail(
+                    'Verificación de Correo',
+                    'Por favor verifica tu correo electronico: http://localhost:8000/auth/verify/'+ email_uuid,
+                    'jorge8907@hotmail.com',
+                    [email],
+                    fail_silently=False,
+                )
+            except:
+                print("Ocurrio un error al enviar")
+                
             login(request,new_user)
             return redirect("/")
 
@@ -69,3 +93,21 @@ def signup_view(request):
             })
 
     return render(request, "pages/signup.html")
+
+def validate_email(request, email_uuid):
+    try:
+        
+        user = User.objects.get(emailValidationUUID=email_uuid)
+        user.emailValidationUUID = None
+        user.isEmailValid = True
+        user.save()
+            
+        return render(request, "pages/email_validation.html", {
+            "message": "Email validated succesfully"
+        })
+    except ObjectDoesNotExist:
+        return render(request, "pages/email_validation.html", {
+            "message": "Maybe this validation code has been used. Verify your url"
+        })
+        
+    

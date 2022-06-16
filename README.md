@@ -22,7 +22,7 @@
   <p>
     <sub>
       Built with ❤︎ by
-      Mile & George 
+      Mile8928 & jorge8907
      </sub>
   </p>
   <br />
@@ -44,10 +44,18 @@
   </p>
 
   <p>
-  **HTTP Métodos**
+**HTTP Métodos**
 
-* `GET` - Requests retrieve resource information
-* `POST` - The server creates a new entry in a database
-* `DELETE` - Deletes resource or related component
+`GET` - Requests retrieve resource information
+`POST` - The server creates a new entry in a database
+`DELETE` - Deletes resource or related component
 </p>
 </div>
+
+**Built with**
+
+- [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [tailwind](https://tailwindcss.com/docs/installation)
+

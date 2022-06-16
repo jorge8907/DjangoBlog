@@ -44,7 +44,8 @@
   </p>
 
   <p>
-**HTTP Métodos**
+      
+ **HTTP Métodos**
 
 `GET` - Requests retrieve resource information
 `POST` - The server creates a new entry in a database
@@ -58,4 +59,9 @@
 - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [tailwind](https://tailwindcss.com/docs/installation)
+- [Django](https://docs.djangoproject.com/en/4.0/)
+- [Python](https://docs.python.org/3/)
+
+
+
 

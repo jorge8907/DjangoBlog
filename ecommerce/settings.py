@@ -10,8 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
-from telnetlib import AUTHENTICATION
+
+
+load_dotenv()
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m15gc#x-!&ed29l^f70n)u87l6n13&o+np-eat5-z73-nh^hz#'
+SECRET_KEY = os.getenv('SECRET_KEY')
+#'django-insecure-m15gc#x-!&ed29l^f70n)u87l6n13&o+np-eat5-z73-nh^hz#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -40,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'cart',
-    'users'
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -131,9 +139,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #EMAIL
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = "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"
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+#"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"
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+#465
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')

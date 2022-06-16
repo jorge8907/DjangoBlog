@@ -7,17 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link href="{% static "css\base.css " %}"  rel="stylesheet">
+    <script src="https://kit.fontawesome.com/d2fc6f6c9e.js" crossorigin="anonymous"></script>  
+
     {% block custom_css %}
     {% endblock %}
 </head>
+
 <body>
     
     {% include "components\navbar.html" %}
+  
 
 
     <main>
         {% block main %}
-
+        
         {% endblock %}
 
     </main>

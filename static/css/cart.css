@@ -1,8 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .cart
 {
     width: 80%;
     margin: 0 auto;
     background: white;
+    
 }
 
 .cart-item{
@@ -13,5 +18,25 @@
 }
 .cart-item-image{
     width: 100px;
+    align-items: center;
+    
 
+}
+.total{
+    width: 80%;
+    margin: 20px auto;
+    background: white;
+    text-align: right;
+    font-weight: bold;
+    font-size: 30px;
+  
+}
+.payment_btn{
+    text-decoration: none;
+    background-color: #282828;
+    padding: 10px 20px;
+    color: white;
+    font-size: 24px;
+    border-radius: 5px;
+    align-items: center;
 }

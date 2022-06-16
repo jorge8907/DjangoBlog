@@ -1,8 +1,18 @@
+from itertools import product
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import CartItem, Cart
 from products.models import Product
 from django.utils.decorators import decorator_from_middleware
 from users.middleware import AuthMiddleware
+from django.views.decorators.csrf import csrf_exempt
+import json
+import requests
+from requests.auth import HTTPBasicAuth
+
+paypal_url = "https://api-m.sandbox.paypal.com"
+paypal_client_id= "AQmlprVfOqLBUGlAGSKS0oDp3FyBg2DVtIQHZGoIHyU5e70fQZprjqaCxCxcsvm94TuWOVTZ41s6Ani6"
+paypal_client_secret= "EIqC-oUM5Y6TP8PjGR7hMJ_x6Wdwel5N0vSswJpg625xYm5lDwR5y9b24RECTSAsB2aM_3eii5aImBsX"
 
 
 # Create your views here.
@@ -12,8 +22,14 @@ auth_middleware = decorator_from_middleware(AuthMiddleware)
 def get_cart(request):
     if request.user.is_authenticated:
         products = request.user.cart.products.all()
+        total = 0
+        for cartItem in products:
+            total += cartItem.product.price * cartItem.amount
         return render(request, "pages/cart.html", {
-        "products": products
+        "products": products,
+        "total" : total,
+        "client_id": paypal_client_id,
+        "client_token": generate_client_token()
     
     })
         return redirect("/")
@@ -30,6 +46,29 @@ def add_to_cart(request, idProduct):
             
     return redirect("/")
 
+@csrf_exempt
+def change_amount(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+        amount = data['amount']
+        id_item = data['idItem']
+        
+        cart_item = CartItem.objects.get(id=id_item)
+        
+        cart_item.amount = amount
+        cart_item.save()
+        
+        cart_items = cart_item.cart.products.all()
+        
+        total = 0
+        for cartItem in cart_items:
+            total += cartItem.product.price * cartItem.amount
+        return JsonResponse({
+            "total": total
+        })
+        
+
 def delete_from_cart(request, id_cart_item):
     if request.user.is_authenticated:
         cart_item = CartItem.objects.get(pk=id_cart_item)
@@ -39,3 +78,74 @@ def delete_from_cart(request, id_cart_item):
             return redirect("/cart")
     
     return redirect("/")
+
+@csrf_exempt
+def create_paypal_order(request):
+    products = request.user.cart.products.all()
+    total = 0
+    for cartItem in products:
+        total += cartItem.product.price * cartItem.amount
+    access_token = get_access_token()
+    create_order_url = paypal_url+"/v2/checkout/orders"
+    response = requests.post(create_order_url, headers={
+        "Authorization" : "Bearer "+ access_token,
+        "Content-Type": "application/json",
+    }, data = json.dumps({
+        "intent": "CAPTURE",
+        "purchase_units": [
+            {
+                "amount": {
+                    "currency_code": "USD",
+                    "value": total
+                }
+            }
+            
+        ]
+        
+    }))
+    
+    data = response.json()
+    print(data)
+    return JsonResponse({
+        "order": data
+    })
+    
+@csrf_exempt
+def capture_paypal_order(request, order_id): 
+    access_token = get_access_token()
+    capture_order_url = paypal_url+"/v2/checkout/orders"+order_id+"/capture"
+    response = requests.post(client_token_url, headers={
+        "Authorization" : "Bearer "+access_token,
+        "Content-Type": "application/json", 
+    } )
+    data= response.json()
+    print(data)
+    cart_items = request.user.cart.delete()
+    new_cart = Cart()
+    new_cart.user = request.user
+    return JsonResponse(data)
+    
+    
+def get_access_token():
+    access_token_url= paypal_url + "/v1/oauth2/token"
+    response = requests.post(access_token_url, data={
+        "grant_type": "client_credentials",
+        
+    }, auth=HTTPBasicAuth(paypal_client_id, paypal_client_secret))
+    data = response.json()
+    print(data)
+    return data['access_token']
+    
+def generate_client_token():
+    access_token = get_access_token()
+    
+    client_token_url = paypal_url + "/v1/identity/generate-token"
+    response = requests.post(client_token_url, headers={
+        "Authorization" : "Bearer "+access_token,
+        "Accept-Language": "en_US",
+        "Content-Type": "application/json",
+    } )
+    data = response.json()
+    print(data)
+    return data['client_token']
+    

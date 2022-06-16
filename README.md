@@ -22,11 +22,8 @@
   <p>
     <sub>
       Built with ❤︎ by
-      <a href="https://github.com/Milena8928" > |
-       <a href="https://github.com/jorge8907" >
-        contributors
-      </a>
-    </sub>
+      Mile & George 
+     </sub>
   </p>
   <br />
   <p>

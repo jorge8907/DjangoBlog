@@ -62,7 +62,7 @@
 - [Django](https://docs.djangoproject.com/en/4.0/)
 - [Python](https://docs.python.org/3/)
 
-**MOdelo base de Datos Ecommerce**
+**Modelo base de Datos Ecommerce**
 [![Diagrama-BD.png](https://i.postimg.cc/hPb9d1Wx/Diagrama-BD.png)](https://postimg.cc/hfvzFxGP)
 
 
